@@ -2,6 +2,9 @@
 
 A level = one intentionally broken behavior + a way to prove it's fixed.
 
+Levels are the **challenge gates** of course topics ([COURSES.md](COURSES.md)): a topic lists the level IDs it requires. A level can also be played on its own in Practice mode.
+Rule: a level used as a gate must teach what its topic's lesson taught. If the lesson doesn't cover it, the gate is unfair; move it or fix the lesson.
+
 ## Tracks
 
 | Track | Bugs taught | Example |
@@ -36,6 +39,8 @@ tests:
   hidden: server-side
 rubric: rubric.md        # what Ollama checks
 tags: [string-vs-number, rest]
+topic: rest-types        # topic that uses this level as a gate (optional)
+variants: [L1-001-b, L1-001-c]   # used for review challenges and exams
 ```
 
 Files per level: `level.yaml`, `bug.patch` (applies the bug to a clean service), `hints.md`, `rubric.md`, `solution.md` (reference fix, never shipped to players), hidden tests.

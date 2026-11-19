@@ -23,6 +23,12 @@ score = base(difficulty)
 
 Pass/fail = hidden tests only.
 
+## Course progress (not score)
+- Topic completion is a **gate**, not a score: it depends on verified required challenges + quiz pass mark ([COURSES.md](COURSES.md)).
+- Course progress % = completed required topics / total required topics.
+- Level score still feeds XP and leaderboards; test-out completions earn full XP, review challenges earn reduced XP.
+- Certificate issued only when all required topics are `completed` server-side.
+
 ## Streaks
 - Streak day = at least one verified level completion (or daily challenge) in the player's local day.
 - Store the player's timezone; compute on the server.

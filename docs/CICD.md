@@ -15,10 +15,11 @@ Start with the smallest pipeline that protects you. Add one stage per phase.
 | 1 | Per-service build + unit tests (GitHub Actions) | Build green |
 | 1 | **Level check:** hidden test FAILS on buggy code, PASSES with reference fix | Level is real and solvable |
 | 2 | CLI build + release artifact; level validation matrix over all levels | No broken level merges |
+| 1 | **Curriculum check:** YAML schema valid, `requires` has no cycles, referenced levels and lesson files exist | Roadmap can't ship broken |
 | 3 | Flyway migration check on a clean DB; Testcontainers integration tests; build + push Docker images to GHCR; compose smoke test | Images start, `/health` OK |
 | 4 | Log-schema contract test; audit-immutability test; auto-deploy `main` → staging | Staging up to date |
 | 5 | Scoring unit + property tests; Playwright e2e (Level 1 happy path); coverage gate (e.g. 70% on scoring/progress) | Business rules protected |
-| 6 | Level-pack matrix; auto-generate level catalog; dependency scan (Dependabot/OWASP); SAST (CodeQL) | No known-vuln deps |
+| 6 | Course validation matrix (every topic's gate level solvable, quiz schema, broken-link check in lessons); level-pack matrix; auto-generate level catalog; dependency scan (Dependabot/OWASP); SAST (CodeQL) | No known-vuln deps |
 | 7 | k6 load test on submit/scoreboard; canary deploy | p95 latency budget |
 | 8 | Tenant-isolation tests; manual security-review gate; blue/green deploy; backup/restore drill | No cross-tenant leak |
 | 9 | SBOM, image signing (cosign), Helm/K8s deploy, chaos/failure tests, SLO alerts | Supply chain + resilience |

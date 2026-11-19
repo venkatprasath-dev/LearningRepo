@@ -6,7 +6,23 @@
 Tutorials teach you to write code. Production teaches you to **find out why it's wrong**.
 Bug Hunt gives you a running app with an intentional bug, and you debug it the way you would at work: reproduce → trace → find root cause → fix → prove it.
 
-## The idea in 30 seconds
+## Course-based learning
+
+Bug Hunt is a **course platform with a practical gate**, not just a pile of puzzles.
+
+1. A course is a **roadmap of topics** (e.g. *Spring Boot Debugging → REST basics → Type handling*).
+2. You study a topic: lesson, optional quiz.
+3. The topic then asks you to **perform a challenge** (a real broken service to fix).
+4. Challenge verified → **next topic unlocks**. Repeat to the end of the course, then a capstone incident and a certificate.
+
+Experienced? **Test out**: pass the challenge first and skip the lesson. Details: [docs/COURSES.md](docs/COURSES.md).
+
+```mermaid
+flowchart LR
+  L[Lesson] --> Q[Quiz] --> C[Challenge gate] -->|verified| N[Next topic unlocks]
+```
+
+## The idea in 30 seconds (one challenge)
 
 1. Open the web UI. Level 1 is a calculator. Enter `2 + 2`, press `=`. It shows **22**. Correct answer: **4**.
 2. The UI is fine. The bug is in the backend `add` API.
@@ -39,6 +55,8 @@ flowchart LR
 ## Features
 
 ### For learners
+- **Courses and roadmaps:** modules → topics → lesson + quiz + challenge gate; branching prerequisites; progress map; certificates ([Courses](docs/COURSES.md))
+- Test-out and placement tests; spaced-repetition review challenges
 - 8 level tracks: basics → data/JPA → concurrency → distributed → security → performance → incidents → tooling labs ([Levels](docs/LEVELS.md))
 - **Debug Console:** live logs, request inspector, "watch value" tracking, adjustable log level ([Logging](docs/LOGGING.md))
 - 3-tier hints that cost points
@@ -55,6 +73,7 @@ flowchart LR
 
 ### For institutes & colleges
 - Multi-tenant: institute → department → batch → student; roles for admin, instructor, student
+- **Cohorts:** assign a course to a batch with deadlines and drip release; instructor progress dashboard
 - Bulk student import, later SSO; custom branding; private level banks
 - **Exam mode:** scheduled window + access code, randomized variants per student, locked workspace, server-side timer and grading, similarity reports, CSV/PDF export ([Exams](docs/EXAMS.md))
 
@@ -70,6 +89,7 @@ flowchart LR
 | `gateway` | Entry point, auth, rate limit, correlation IDs |
 | `auth-service` | GitHub OAuth, roles, tenants |
 | `challenge-*` (Spring Boot) | **The intentionally buggy services you fix** |
+| `course-service` | Curriculum, enrollments, topic states, unlock rules, quizzes |
 | `progress-service` | Levels, attempts, scoring, streaks, badges |
 | `leaderboard-service` | Rankings, seasons, contests |
 | `exam-service` | Exams, sessions, grading |
@@ -108,12 +128,12 @@ Eleven phases; each ends with something that runs. Full detail and exit criteria
 | # | Phase | You'll have |
 |---|---|---|
 | 0 | Foundations | Conventions + docs |
-| 1 | Walking skeleton | Level 1 end-to-end, by hand |
+| 1 | Walking skeleton | Level 1 + 2-topic roadmap, end-to-end, by hand |
 | 2 | Local submit + AI review | `learn` CLI + Ollama |
-| 3 | Persistence & progress | PostgreSQL, accounts, verified completions |
+| 3 | Persistence, progress & course engine | PostgreSQL, accounts, server-side topic gating |
 | 4 | Logging | Debug Console + audit log |
 | 5 | Gamification | Score, streaks, hints, badges, leaderboard |
-| 6 | Content scale | 20+ levels, authoring kit |
+| 6 | Content scale | 3+ courses, 20+ levels, authoring kit |
 | 7 | Competitions | Contests, teams, seasons |
 | 8 | Institute & exam mode | Multi-tenant exams |
 | 9 | Hardening | Sandbox, anti-cheat, observability, SSO |
@@ -128,6 +148,7 @@ Eleven phases; each ends with something that runs. Full detail and exit criteria
 | [Architecture](docs/ARCHITECTURE.md) | Services, repo split, flows |
 | [Roadmap](docs/ROADMAP.md) | Phases, scope, exit criteria |
 | [CI/CD](docs/CICD.md) | Pipeline evolution, environments, rollback |
+| [Courses](docs/COURSES.md) | Roadmaps, topics, gating, unlock rules, content format |
 | [Levels](docs/LEVELS.md) | Tracks, level spec, Level 1 walkthrough, authoring |
 | [Logging](docs/LOGGING.md) | Player Debug Console, admin audit log, observability |
 | [Scoring](docs/SCORING.md) | Score formula, streaks, badges |

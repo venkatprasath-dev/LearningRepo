@@ -25,6 +25,7 @@ flowchart LR
   subgraph Platform - separate repos / images
     GW[gateway]
     AUTH[auth-service]
+    COURSE[course-service]
     PROG[progress-service]
     EXAM[exam-service]
     AUD[audit-service]
@@ -33,7 +34,9 @@ flowchart LR
   end
   WEB --> GW
   GW --> CH1 & CH2 & CHN
-  GW --> AUTH & PROG & EXAM & LB
+  GW --> AUTH & COURSE & PROG & EXAM & LB
+  COURSE -->|is level verified?| PROG
+  PROG -.level verified event.-> COURSE
   CLI --> OLL
   CLI -->|signed submission| PROG
   PROG --> PG
@@ -54,6 +57,7 @@ flowchart LR
 | `gateway` | platform | Spring Cloud Gateway | Single entry, JWT validation, rate limit, correlation ID injection | - |
 | `auth-service` | platform | Spring Boot | GitHub OAuth, later SSO; roles; tenant membership | `auth` |
 | `challenge-*` | player repo | Spring Boot (one per theme) | **Intentionally buggy** business APIs | none or H2 |
+| `course-service` | platform | Spring Boot | Loads curriculum from `courses/`, enrollments, topic states, unlock rules, quiz grading, certificates; asks `progress-service` whether a level is verified | `course` |
 | `progress-service` | platform | Spring Boot | Levels, attempts, completions, scoring, streaks, badges, hints | `progress` |
 | `leaderboard-service` | platform | Spring Boot | Rankings, seasons, contest boards | `leaderboard` |
 | `exam-service` | platform | Spring Boot | Tenants' exams, sessions, grading, results | `exam` |
@@ -70,6 +74,7 @@ Split at Phase 3, when platform services appear.
 ```
 bughunt-player/        (this repo - what players fork)
   web/
+  courses/<course>/modules/<module>/topics/<topic>/{topic.yaml, lesson.md, quiz.yaml}
   challenges/<theme>/
   levels/<id>/{level.yaml, bug.patch, hints.md, rubric.md}   # hidden tests are NOT here
   cli/
@@ -106,6 +111,26 @@ sequenceDiagram
   S->>S: re-run hidden tests (isolated runner)
   S-->>C: accepted / rejected + score
 ```
+
+### Topic gating (course flow)
+
+```mermaid
+sequenceDiagram
+  participant P as Player
+  participant W as web
+  participant CS as course-service
+  participant S as progress-service
+  P->>W: finish lesson + quiz
+  W->>CS: mark lesson read, submit quiz
+  CS-->>W: topic state = challenge
+  P->>W: fix bug, learn submit (see above)
+  S->>S: verify hidden tests
+  S-->>CS: level L1-001 verified
+  CS->>CS: all required challenges done? yes
+  CS-->>W: topic completed, next topic unlocked
+```
+
+The browser and CLI never tell `course-service` "I completed it". Only `progress-service`'s verified result unlocks a topic.
 
 ### Exam submit (no local trust)
 

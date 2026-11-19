@@ -29,8 +29,15 @@ Tenant (institute)
 - Branding: logo, colors, institute name on exam pages and result PDFs.
 - Private level sets per tenant (their own questions stay theirs).
 
+## Courses for cohorts (instructor)
+- Assign a course ([COURSES.md](COURSES.md)) to a batch with start/due dates.
+- **Drip release:** topics open on instructor-set dates.
+- Disable test-out and placement skipping for graded courses.
+- Dashboard: per-student topic state, quiz scores, stuck-topic alerts, overdue list.
+- Exam can be linked to a course: "Midterm = modules 1-2", gated on course progress.
+
 ## Exam builder (instructor)
-- Pick levels from the bank (global + tenant-private); set marks per level.
+- Pick levels from the bank (global + tenant-private) **or from a course's topics**; set marks per level.
 - Duration, window (start/end), attempts, access code, allowed batches.
 - Options: randomize level order; **variants** (same bug class, different data/service, so neighbors can't copy); negative marking; partial credit by hidden-test pass ratio.
 - Preview as student; dry-run on the runner before publishing.
